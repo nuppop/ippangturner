@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Birthday for Irfan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(180deg, #0a0a2a, #1b1b5a);
+      color: white;
+      font-family: 'Press Start 2P', cursive;
+      text-align: center;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1, p {
+      margin: 20px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button {
+      background: #00aaff;
+      border: 2px solid white;
+      padding: 10px 20px;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ccff;
+    }
+
+    button:hover {
+      background: #00ccff;
+    }
+
+    .shake {
+      animation: shake 0.3s;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(3px, 0); }
+      25% { transform: translate(-3px, 0); }
+      50% { transform: translate(3px, 0); }
+      75% { transform: translate(-3px, 0); }
+      100% { transform: translate(0, 0); }
+    }
+
+    /* Falling snow */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: snowFall linear forwards;
+      pointer-events: none;
+      z-index: 3;
+      image-rendering: pixelated;
+    }
+
+    @keyframes snowFall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+
+    .screen {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      max-width: 600px;
+      padding: 30px;
+      border: 4px solid #00ccff;
+      border-radius: 8px;
+      background: rgba(0,0,50,0.0); /* transparan */
+      box-shadow: 0 0 20px #00ccff;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scene 1 -->
+  <div id="scene1" class="screen">
+    <h1>HAPPY BIRTHDAY IRFAN!</h1>
+    <button id="pressButton">PRESS</button>
+  </div>
+
+  <!-- Scene 2 -->
+  <div id="scene2" class="screen hidden">
+    <p>Loading...</p>
+  </div>
+
+  <!-- Scene 3 -->
+  <div id="scene3" class="screen hidden">
+    <p>Happy Birthday Irfan! 🎉<br>
+    Wishing you joy, laughter, and love in every pixel of your day!</p>
+    <button id="nextButton">PRESS</button>
+  </div>
+
+  <!-- Scene 4 -->
+  <div id="scene4" class="screen hidden">
+    <p>Wanna date today in Bandung?</p>
+    <button id="yesButton">YES 💛</button>
+    <button id="noButton">NO 💢</button>
+  </div>
+
+  <script>
+    const s1 = document.getElementById('scene1');
+    const s2 = document.getElementById('scene2');
+    const s3 = document.getElementById('scene3');
+    const s4 = document.getElementById('scene4');
+    const press = document.getElementById('pressButton');
+    const next = document.getElementById('nextButton');
+    const yes = document.getElementById('yesButton');
+    const no = document.getElementById('noButton');
+
+    /* Falling snow effect */
+    function createSnowflake() {
+      const snow = document.createElement('div');
+      snow.className = 'snowflake';
+      snow.style.left = Math.random() * 100 + 'vw';
+      snow.style.animationDuration = (3 + Math.random() * 3) + 's';
+      snow.style.width = snow.style.height = (4 + Math.random() * 4) + 'px';
+      document.body.appendChild(snow);
+      setTimeout(() => snow.remove(), 6000);
+    }
+    setInterval(createSnowflake, 120);
+
+    press.onclick = () => {
+      s1.classList.add('hidden');
+      s2.classList.remove('hidden');
+      setTimeout(() => {
+        s2.classList.add('hidden');
+        s3.classList.remove('hidden');
+      }, 2000);
+    };
+
+    next.onclick = () => {
+      s3.classList.add('hidden');
+      s4.classList.remove('hidden');
+    };
+
+    yes.onclick = () => {
+      s4.innerHTML = '<p>Thank you 💛</p>';
+      setTimeout(() => {
+        location.reload();
+      }, 2500);
+    };
+
+    no.onclick = () => {
+      s4.classList.add('shake');
+      setTimeout(() => s4.classList.remove('shake'), 400);
+      alert("You have to say YES 😠💢");
+    };
+  </script>
+
+</body>
+</html>
